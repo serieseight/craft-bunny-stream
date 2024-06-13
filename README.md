@@ -22,6 +22,8 @@ Open your terminal and run the following commands:
 # go to the project directory
 cd /path/to/my-project.test
 
+composer config repositories.craft-bunny-stream git git@github.com:serieseight/craft-bunny-stream.git
+
 # tell Composer to load the plugin
 composer require serieseight/craft-bunny-stream
 

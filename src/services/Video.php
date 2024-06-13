@@ -6,11 +6,8 @@ use Craft;
 use craft\helpers\App;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Collection;
-use Mpdf\Mpdf;
 use serieseight\bunnystream\Plugin;
-use serieseight\bunnystream\records\VideoRecord;
 use yii\base\Component;
-use serieseight\bunnystream\elements\Video as VideoElement;
 
 /**
  * Video service
