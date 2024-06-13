@@ -25,7 +25,7 @@ cd /path/to/my-project.test
 composer config repositories.craft-bunny-stream git git@github.com:serieseight/craft-bunny-stream.git
 
 # tell Composer to load the plugin
-composer require serieseight/craft-bunny-stream
+composer require serieseight/craft-bunny-stream:v5.x-dev@dev
 
 # tell Craft to install the plugin
 ./craft plugin/install bunny-stream
