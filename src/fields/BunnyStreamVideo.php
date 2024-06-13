@@ -27,7 +27,7 @@ class BunnyStreamVideo extends Field
 
     public static function icon(): string
     {
-        return "i-circle-play";
+        return '@bunny-stream/icon-mask.svg';
     }
 
     public static function dbType(): array|string|null
