@@ -25,7 +25,12 @@ class BunnyStreamVideo extends Field
         return Craft::t('bunny-stream', 'Bunny Stream Video');
     }
 
-    public function getContentColumnType(): array|string
+    public static function icon(): string
+    {
+        return "i-circle-play";
+    }
+
+    public static function dbType(): array|string|null
     {
         return Schema::TYPE_TEXT;
     }
@@ -57,7 +62,7 @@ class BunnyStreamVideo extends Field
         return new BunnyStreamVideoModel(null);
     }
 
-    protected function inputHtml(mixed $value, ElementInterface $element = null): string
+    protected function inputHtml(mixed $value, ElementInterface $element = null, bool $inline = false): string
     {
         Craft::$app->view->registerAssetBundle(BunnyVideoFieldBundle::class);
 
@@ -69,6 +74,11 @@ class BunnyStreamVideo extends Field
                 "value" => $video->guid,
             ];
         }, $videos);
+
+        array_unshift($videos, [
+            "label" => " ",
+            "value" => "__blank__",
+        ]);
 
         $select = Cp::selectizeHtml([
             'id' => $this->getInputId(),

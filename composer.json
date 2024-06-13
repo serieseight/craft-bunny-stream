@@ -10,7 +10,7 @@
         "rss": "https://github.com/serieseight/craft-bunny-stream/releases.atom"
     },
     "require": {
-        "php": ">=8.0.2",
+        "php": ">=8.2.11",
         "craftcms/cms": "^5.0.0"
     },
     "autoload": {
@@ -27,11 +27,16 @@
     "config": {
         "sort-packages": true,
         "platform": {
-            "php": "8.0.2"
+            "php": "8.2.11"
         },
         "allow-plugins": {
             "yiisoft/yii2-composer": true,
             "craftcms/plugin-installer": true
         }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require-dev": {
+        "craftcms/rector": "dev-main"
     }
 }

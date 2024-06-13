@@ -128,6 +128,10 @@ class BunnyStreamVideo extends Model
 
         $libraryId = App::parseEnv($settings->libraryId);
 
+        if(!$this->guid) {
+            return "";
+        }
+
         return "https://video.bunnycdn.com/play/$libraryId/$this->guid";
     }
 
@@ -135,6 +139,10 @@ class BunnyStreamVideo extends Model
         $settings = Plugin::getInstance()->settings;
 
         $libraryId = App::parseEnv($settings->libraryId);
+
+        if(!$this->guid) {
+            return "";
+        }
 
         return "https://iframe.mediadelivery.net/embed/$libraryId/$this->guid";
     }
