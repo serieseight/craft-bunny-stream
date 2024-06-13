@@ -1,0 +1,134 @@
+{% extends "_layouts/cp.twig" %}
+
+{% import "_includes/forms" as forms %}
+
+{% set title = video.title|t('bunny-stream') %}
+{% set selectedSubnavItem = 'videos' %}
+{% set fullPageForm = true %}
+
+{% set crumbs = [{
+    label: 'Bunny Stream'|t('bunny-stream'),
+    url: url('bunny-stream'),
+}, {
+    label: 'Videos'|t('bunny-stream'),
+    url: url('bunny-stream'),
+}] %}
+
+{% set tabs = {
+    0: {'label':'Content'|t('bunny-stream'),'url':'#contentFields'},
+} %}
+
+{% block actionButton %}
+    <div class="buttons">
+        <a
+            href="https://video.bunnycdn.com/play/{{ libraryId }}/{{ video.guid }}"
+            target="_blank"
+            type="button"
+            class="btn"
+            data-icon="share"
+            aria-label="Open video"
+        >Open video</a>
+
+        <a
+            href="https://dash.bunny.net/stream/{{ libraryId }}/library/overview?videoId={{ video.guid }}#noscroll"
+            target="_blank"
+            type="button"
+            class="btn"
+            data-icon="share"
+            aria-label="View in Bunny"
+        >View on Bunny</a>
+
+        <div class="btngroup">
+            <button type="button" class="btn submit formsubmit">{{ 'Save'|t('app') }}</button>
+            <button type="button" class="btn submit menubtn"></button>
+            <div class="menu">
+                <ul role="group">
+                    <li>
+                        <a class="formsubmit" data-redirect="test">
+                            {{ forms.optionShortcutLabel('S') }}
+                            {{ "Save and continue editing"|t('bunny-stream') }}
+                        </a>
+                    </li>
+                </ul>
+                <hr>
+                <ul role="group">
+                    <li>
+                        <a class="formsubmit error" data-redirect="bunny-stream/videos" data-action="bunny-stream/videos/delete-video" data-param="videoId" data-value="{{ video.guid }}" data-confirm="Are you sure you want to delete this video?">
+                            {{ "Delete video"|t('bunny-stream') }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block details %}
+    <dl class="meta read-only">
+        <div class="data first">
+            <dt class="heading">GUID</dt>
+            <dd class="value">{{ video.guid }}</dd>
+        </div>
+
+        <div class="data">
+            <dt class="heading">Resolution</dt>
+            <dd class="value">{{ video.width }}x{{ video.height }} (available in {{ video.availableResolutions }})</dd>
+        </div>
+
+        <div class="data">
+            <dt class="heading">Duration</dt>
+            <dd class="value">{{ "1970-01-01" | date_modify("+#{video.length} seconds") | date("H:i:s") }}</dd>
+        </div>
+
+        <div class="data">
+            <dt class="heading">File Size</dt>
+            <dd class="value">{{ video.storageSize | filesize(decimals=1) }}</dd>
+        </div>
+
+        <div class="data">
+            <dt class="heading">Is Public</dt>
+            <dd class="value">{{ video.isPublic ? "Yes" : "No" }}</dd>
+        </div>
+
+        <div class="data">
+            <dt class="heading">Date Created</dt>
+            <dd class="value">{{ video.dateUploaded | date("d/m/Y - H:i:s") }}</dd>
+        </div>
+    </dl>
+{% endblock %}
+
+{% block content %}
+    {{ actionInput('bunny-stream/videos/save-video') }}
+    {{ redirectInput('bunny-stream/videos') }}
+    {{ hiddenInput('videoId', video.guid) }}
+
+    <div id="contentFields">
+        {{ forms.textField({
+            first: true,
+            label: 'Title'|t('plugin-handle'),
+            id: 'title',
+            name: 'title',
+            value: video.title,
+            required: true,
+            class: "first",
+        }) }}
+
+        <div class="field">
+            <div class="heading">
+                <label for="video-preview">Preview</label>
+            </div>
+
+            <div class="input">
+                <iframe
+                    src="https://iframe.mediadelivery.net/embed/{{ libraryId }}/{{ video.guid }}"
+                    frameborder="0"
+                    width="100%"
+                    height="auto"
+                    style="aspect-ratio: 16/9"
+                    id="video-preview"
+                ></iframe>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

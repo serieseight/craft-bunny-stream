@@ -1,0 +1,56 @@
+{% extends "_layouts/cp.twig" %}
+{% import '_includes/forms.twig' as forms %}
+
+{% set title = "Settings"|t('bunny-stream') %}
+{% set selectedSubnavItem = 'settings' %}
+{% set fullPageForm = true %}
+
+{% set crumbs = [{
+    label: 'Bunny Stream'|t('bunny-stream'),
+    url: url('bunny-stream'),
+},{
+    label: 'Settings'|t('bunny-stream'),
+    url: url('bunny-stream/settings'),
+}] %}
+
+{% block content %}
+    {{ actionInput('bunny-stream/settings/save') }}
+
+    <p class="first">All API fields can be found in your library under API in the inner sidebar</p>
+
+    {{ forms.autosuggestField({
+        required: true,
+        label: 'Library ID',
+        name: 'libraryId',
+        suggestEnvVars: true,
+        value: settings.libraryId,
+        placeholder: "$BUNNY_STREAM_LIBRARY"
+    }) }}
+
+    {{ forms.autosuggestField({
+        required: true,
+        label: 'Stream URL',
+        name: 'streamUrl',
+        suggestEnvVars: true,
+        value: settings.streamUrl,
+        placeholder: "$BUNNY_STREAM_URL"
+    }) }}
+
+    {{ forms.autosuggestField({
+        required: true,
+        label: 'Pull Zone',
+        name: 'pullZone',
+        suggestEnvVars: true,
+        value: settings.pullZone,
+        placeholder: "$BUNNY_STREAM_PULL_ZONE"
+    }) }}
+
+    {{ forms.autosuggestField({
+        required: true,
+        label: 'Stream Key',
+        name: 'streamKey',
+        suggestEnvVars: true,
+        value: settings.streamKey,
+        placeholder: "$BUNNY_STREAM_KEY"
+    }) }}
+{% endblock %}

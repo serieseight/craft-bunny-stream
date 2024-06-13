@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.box-link {
+    @apply before:absolute before:top-0 before:left-0 before:w-full before:h-full;
+}

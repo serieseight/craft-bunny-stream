@@ -1,0 +1,37 @@
+{
+    "name": "serieseight/craft-bunny-stream",
+    "type": "craft-plugin",
+    "license": "proprietary",
+    "support": {
+        "email": "info@serieseight.com",
+        "issues": "https://github.com/serieseight/craft-bunny-stream/issues?state=open",
+        "source": "https://github.com/serieseight/craft-bunny-stream",
+        "docs": "https://github.com/serieseight/craft-bunny-stream",
+        "rss": "https://github.com/serieseight/craft-bunny-stream/releases.atom"
+    },
+    "require": {
+        "php": ">=8.0.2",
+        "craftcms/cms": "^4.5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "serieseight\\bunnystream\\": "src/"
+        }
+    },
+    "extra": {
+        "handle": "bunny-stream",
+        "name": "Bunny Stream",
+        "developer": "Series Eight",
+        "documentationUrl": "https://github.com/serieseight/craft-bunny-stream"
+    },
+    "config": {
+        "sort-packages": true,
+        "platform": {
+            "php": "8.0.2"
+        },
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true,
+            "craftcms/plugin-installer": true
+        }
+    }
+}

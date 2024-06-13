@@ -1,0 +1,13 @@
+.bunny-video-preview {
+    .video-preview {
+        @apply flex flex-col items-start mt-[20px];
+
+        span {
+            @apply mb-[10px];
+        }
+
+        iframe {
+            @apply aspect-video;
+        }
+    }
+}

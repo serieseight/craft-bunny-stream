@@ -1,0 +1,47 @@
+{% set options = {
+    width: options.width | default(""),
+    height: options.height | default(""),
+    class: options.class | default(""),
+    style: options.style | default(""),
+    responsive: (options.responsive ?? false) | boolean,
+    autoplay: (options.autoplay ?? false) | boolean,
+    preload: (options.preload ?? false) | boolean,
+    loop: (options.loop ?? false) | boolean,
+    muted: (options.muted ?? false) | boolean,
+    controls: (options.controls ?? false) | boolean,
+} %}
+
+{% set iframeUrl = url("https://iframe.mediadelivery.net/embed/#{libraryId}/#{video.guid}", {
+    responsive: options.responsive ? "true" : "false",
+    autoplay: options.autoplay ? "true" : "false",
+    preload: options.preload ? "true" : "false",
+    loop: options.loop ? "true" : "false",
+    muted: options.muted ? "true" : "false",
+    controls: options.controls ? "true" : "false",
+}) %}
+
+{% set iframe %}
+    {% if options.responsive %}
+        {% set options = options | merge({
+            style: "border:0;position:absolute;top:0;height:100%;width:100%; #{options.style}",
+        }) %}
+    {% endif %}
+
+    <iframe
+        src="{{ iframeUrl }}"
+        frameborder="0"
+        {% if options.width %}width="{{ options.width }}"{% endif %}
+        {% if options.height %}height="{{ options.height }}"{% endif %}
+        {% if options.class %}class="{{ options.class }}"{% endif %}
+        {% if options.style %}style="{{ options.style }}"{% endif %}
+        {% if options.responsive %}loading="lazy"{% endif %}
+    ></iframe>
+{% endset %}
+
+{% if options.responsive %}
+    <div style="position:relative;padding-top:56.25%;">
+        {{ iframe }}
+    </div>
+{% else %}
+    {{ iframe }}
+{% endif %}
