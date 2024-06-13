@@ -70,6 +70,11 @@ class BunnyStreamVideo extends Field
             ];
         }, $videos);
 
+        array_unshift($videos, [
+            "label" => " ",
+            "value" => "__blank__",
+        ]);
+
         $select = Cp::selectizeHtml([
             'id' => $this->getInputId(),
             'describedBy' => $this->describedBy,
