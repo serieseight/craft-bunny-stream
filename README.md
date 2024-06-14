@@ -30,3 +30,52 @@ composer require serieseight/craft-bunny-stream:v4.x-dev@dev
 # tell Craft to install the plugin
 ./craft plugin/install bunny-stream
 ```
+
+## Usage
+
+By default, the bunny stream video field will output the video's direct play URL.
+```
+# Outputs https://video.bunnycdn.com/play/**libraryId**/**videoGuid**
+
+{{ entry.bunnyField }}
+```
+
+You can also get the embed URL using `.embedUrl`
+```
+# Outputs https://iframe.mediadelivery.net/embed/**libraryId**/**videoGuid**
+
+{{ entry.bunnyField.embedUrl }}
+```
+
+You can get the thumbnail URL using `.thumbnailUrl`
+
+You can get the preview webp URL using `.previewUrl`
+
+You can also get pre-made embed markup using `.embed(options)`
+```
+# Outputs iframe markup
+# Options are optional
+
+{{ entry.bunnyField.embed({
+  width: "",
+  height: "",
+  class: "",
+  style: "",
+  responsive: false,
+  autoplay: false,
+  preload: false,
+  loop: false,
+  muted: false,
+  controls: false,
+}) }}
+```
+
+The full video object returned [from the API](https://docs.bunny.net/reference/video_getvideo) can also be accessed
+```
+{{ entry.bunnyField.dateUploaded }}
+{{ entry.bunnyField.views }}
+{{ entry.bunnyField.width }}
+{{ entry.bunnyField.height }}
+
+# For a full list, see the video object returned from the API in the link above
+```
