@@ -35,12 +35,20 @@ class BunnyStreamVideo extends Model
 
     public function __get($name)
     {
-        if (property_exists($this , $name)) {
-            return $this->$name ?? null;
-        }
-
         if($name === "embedUrl") {
             return $this->getEmbedUrl();
+        }
+
+        if($name === "thumbnailUrl") {
+            return $this->getThumbnailUrl();
+        }
+
+        if($name === "previewUrl") {
+            return $this->getPreviewUrl();
+        }
+
+        if (property_exists($this , $name)) {
+            return $this->$name ?? null;
         }
 
         if($this->video === null) {
@@ -59,12 +67,20 @@ class BunnyStreamVideo extends Model
 
     public function __isset($name)
     {
-        if (property_exists($this , $name)) {
-            return $this->$name ?? null;
-        }
-
         if($name === "embedUrl") {
             return $this->getEmbedUrl();
+        }
+
+        if($name === "thumbnailUrl") {
+            return $this->getThumbnailUrl();
+        }
+
+        if($name === "previewUrl") {
+            return $this->getPreviewUrl();
+        }
+
+        if (property_exists($this , $name)) {
+            return $this->$name ?? null;
         }
 
         if($this->video === null) {
@@ -145,5 +161,47 @@ class BunnyStreamVideo extends Model
         }
 
         return "https://iframe.mediadelivery.net/embed/$libraryId/$this->guid";
+    }
+
+    private function getThumbnailUrl() {
+        $settings = Plugin::getInstance()->settings;
+
+        $streamUrl = App::parseEnv($settings->streamUrl);
+
+        $video = $this->getVideo();
+
+        if(!$video) {
+            return "";
+        }
+
+        return "https://$streamUrl/$video->guid/$video->thumbnailFileName";
+    }
+
+    private function getPreviewUrl() {
+        $settings = Plugin::getInstance()->settings;
+
+        $streamUrl = App::parseEnv($settings->streamUrl);
+
+        $video = $this->getVideo();
+
+        if(!$video) {
+            return "";
+        }
+
+        return "https://$streamUrl/$video->guid/preview.webp";
+    }
+
+    private function getVideo() {
+        if($this->video === null) {
+            $video = Plugin::getInstance()->video->getVideo($this->guid);
+
+            if(!$video) {
+                $this->video = null;
+            } else {
+                $this->video = $video;
+            }
+        }
+
+        return $this->video;
     }
 }

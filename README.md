@@ -47,6 +47,10 @@ You can also get the embed URL using `.embedUrl`
 {{ entry.bunnyField.embedUrl }}
 ```
 
+You can get the thumbnail URL using `.thumbnailUrl`
+
+You can get the preview webp URL using `.previewUrl`
+
 You can also get pre-made embed markup using `.embed(options)`
 ```
 # Outputs iframe markup
