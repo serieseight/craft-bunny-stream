@@ -37,7 +37,7 @@ class BunnyStreamVideo extends Field
                 return null;
             }
 
-            return new BunnyStreamVideoModel(null);
+            return null;
         }
 
         if ($value instanceof BunnyStreamVideoModel && $value->guid) {
@@ -50,11 +50,15 @@ class BunnyStreamVideo extends Field
             $value = ArrayHelper::getValue($value, 'guid');
         }
 
+        if(strtolower($value) === '__blank__') {
+            return null;
+        }
+
         if(is_string($value)) {
             return $this->value = new BunnyStreamVideoModel($value);
         }
 
-        return new BunnyStreamVideoModel(null);
+        return null;
     }
 
     protected function inputHtml(mixed $value, ElementInterface $element = null): string
@@ -79,7 +83,7 @@ class BunnyStreamVideo extends Field
             'id' => $this->getInputId(),
             'describedBy' => $this->describedBy,
             'name' => $this->handle,
-            'value' => $value->guid,
+            'value' => $value->guid ?? null,
             'options' => $videos,
             'class' => 'bunny-video-field',
         ]);

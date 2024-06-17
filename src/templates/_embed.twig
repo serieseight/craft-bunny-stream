@@ -11,7 +11,7 @@
     controls: (options.controls ?? false) | boolean,
 } %}
 
-{% set iframeUrl = url("https://iframe.mediadelivery.net/embed/#{libraryId}/#{video.guid}", {
+{% set iframeUrl = url(video.embedUrl, {
     responsive: options.responsive ? "true" : "false",
     autoplay: options.autoplay ? "true" : "false",
     preload: options.preload ? "true" : "false",

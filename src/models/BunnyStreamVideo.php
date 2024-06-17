@@ -111,14 +111,7 @@ class BunnyStreamVideo extends Model
             return null;
         }
 
-        $videoId = $this->guid;
-
-        $videos = Plugin::getInstance()->video->listVideos()->items ?? [];
-        $videos = Collection::make($videos);
-
-        $video = $videos->first(function($video) use ($videoId) {
-            return $video->guid === $videoId;
-        });
+        $video = $this->getVideo();
 
         if(!$video) {
             return null;
@@ -130,7 +123,7 @@ class BunnyStreamVideo extends Model
         $streamUrl = App::parseEnv($settings->streamUrl);
 
         $html = \Craft::$app->view->renderTemplate("bunny-stream/_embed", [
-            "video" => $video,
+            "video" => $this,
             "libraryId" => $libraryId,
             "streamUrl" => $streamUrl,
             "options" => $options,
@@ -145,7 +138,7 @@ class BunnyStreamVideo extends Model
         $libraryId = App::parseEnv($settings->libraryId);
         
         if(!$this->guid) {
-            return "";
+            return null;
         }
 
         return "https://video.bunnycdn.com/play/$libraryId/$this->guid";
@@ -157,7 +150,7 @@ class BunnyStreamVideo extends Model
         $libraryId = App::parseEnv($settings->libraryId);
 
         if(!$this->guid) {
-            return "";
+            return null;
         }
 
         return "https://iframe.mediadelivery.net/embed/$libraryId/$this->guid";
@@ -171,7 +164,7 @@ class BunnyStreamVideo extends Model
         $video = $this->getVideo();
 
         if(!$video) {
-            return "";
+            return null;
         }
 
         return "https://$streamUrl/$video->guid/$video->thumbnailFileName";
@@ -185,7 +178,7 @@ class BunnyStreamVideo extends Model
         $video = $this->getVideo();
 
         if(!$video) {
-            return "";
+            return null;
         }
 
         return "https://$streamUrl/$video->guid/preview.webp";
