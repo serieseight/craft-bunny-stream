@@ -92,12 +92,27 @@ class Video extends Component
         }
     }
 
-    public function updateVideo($videoId, $title) {
+    public function updateVideo($videoId, $title, $thumbnailId = null) {
+        $params = [
+            "title" => $title,
+        ];
+
+        if($thumbnailId) {
+            $thumbnail = Craft::$app->assets->getAssetById($thumbnailId);
+
+            if($thumbnail) {
+                $this->setThumbnail($videoId, $thumbnail->getUrl());
+
+                $params["metaTags"] = [[
+                    "property" => "craft_thumbnail_id",
+                    "value" => $thumbnailId,
+                ]];
+            }
+        }
+
         try {
             $request = $this->client->post("videos/$videoId", [
-                "body" => json_encode([
-                    "title" => $title,
-                ]),
+                "body" => json_encode($params),
             ]);
 
             $response = $request->getBody()->getContents();
@@ -133,5 +148,24 @@ class Video extends Component
         return $videos->first(function($video) use ($videoId) {
             return $video->guid === $videoId;
         });
+    }
+
+    private function setThumbnail($videoId, $thumbnailUrl) {
+        try {
+            $request = $this->client->post("videos/$videoId/thumbnail", [
+                "body" => json_encode([
+                    "thumbnailUrl" => $thumbnailUrl,
+                ]),
+            ]);
+
+            $response = $request->getBody()->getContents();
+            $response = json_decode($response);
+
+            $this->listVideos(1, 1000, true);
+
+            return $response;
+        } catch (GuzzleException $e) {
+            throw new \Exception($e->getMessage());
+        }
     }
 }

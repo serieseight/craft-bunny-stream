@@ -105,12 +105,40 @@
     <div id="contentFields">
         {{ forms.textField({
             first: true,
-            label: 'Title'|t('plugin-handle'),
-            id: 'title',
-            name: 'title',
+            label: "Title" | t("bunny-stream"),
+            id: "title",
+            name: "title",
             value: video.title,
             required: true,
             class: "first",
+        }) }}
+
+        {% set elements = null %}
+
+        {% if metaTags.craft_thumbnail_id is defined and metaTags.craft_thumbnail_id is not null %}
+            {% set image = craft.assets.id(metaTags.craft_thumbnail_id).all() %}
+
+            {% if image %}
+                {% set elements = image %}
+            {% endif %}
+        {% endif %}
+
+        {{ forms.elementSelectField({
+            label: "Thumbnail" | t("bunny-stream"),
+            id: "thumbnail",
+            name: "thumbnail",
+            viewMode: "large",
+            elements: elements,
+            elementType: "craft\\elements\\Asset",
+            criteria: {
+                kind: ["image"],
+            },
+            jsClass: "Craft.AssetSelectInput",
+            selectionLabel: "Select thumbnail"|t("seomatic"),
+            sources: null,
+            limit: 1,
+            warning: false,
+            single: true,
         }) }}
 
         <div class="field">
