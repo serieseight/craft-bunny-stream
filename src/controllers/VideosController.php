@@ -94,6 +94,9 @@ class VideosController extends Controller
             "video" => $video,
             "libraryId" => $libraryId,
             "streamUrl" => $streamUrl,
+            "metaTags" => collect($video->metaTags ?? [])->mapWithKeys(function($item, $key) {
+                return [$item->property => (int) $item->value];
+            })->all(),
         ]);
     }
 
@@ -103,13 +106,14 @@ class VideosController extends Controller
 
         $videoId = \Craft::$app->request->getBodyParam("videoId") ?? null;
         $title = \Craft::$app->request->getBodyParam("title") ?? null;
+        $thumbnailId = \Craft::$app->request->getBodyParam("thumbnail") ?? null;
 
         if(!$videoId || !$title) {
             return $this->asFailure("Missing params");
         }
 
         try {
-            Plugin::getInstance()->video->updateVideo($videoId, $title);
+            Plugin::getInstance()->video->updateVideo($videoId, $title, $thumbnailId);
 
             return $this->asSuccess("Video updated");
         } catch (\Exception $e) {

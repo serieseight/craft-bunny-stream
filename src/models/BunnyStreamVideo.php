@@ -21,11 +21,12 @@ class BunnyStreamVideo extends Model
     public function __construct($data)
     {
         if(is_object($data)) {
-            $this->video = $data;
             $this->guid = $data->guid;
         } else {
             $this->guid = $data;
         }
+
+        $this->video = $this->getVideo();
     }
 
     public function __toString()
@@ -35,6 +36,10 @@ class BunnyStreamVideo extends Model
 
     public function __get($name)
     {
+        if($name === "url") {
+            return $this->getUrl();
+        }
+
         if($name === "embedUrl") {
             return $this->getEmbedUrl();
         }
@@ -52,7 +57,7 @@ class BunnyStreamVideo extends Model
         }
 
         if($this->video === null) {
-            $video = Plugin::getInstance()->video->getVideo($this->guid);
+            $video = $this->getVideo();
 
             if(!$video) {
                 $this->video = null;
@@ -67,6 +72,10 @@ class BunnyStreamVideo extends Model
 
     public function __isset($name)
     {
+        if($name === "url") {
+            return $this->getUrl();
+        }
+
         if($name === "embedUrl") {
             return $this->getEmbedUrl();
         }
@@ -84,7 +93,7 @@ class BunnyStreamVideo extends Model
         }
 
         if($this->video === null) {
-            $video = Plugin::getInstance()->video->getVideo($this->guid);
+            $video = $this->getVideo();
 
             if(!$video) {
                 $this->video = null;
