@@ -26,6 +26,7 @@ class SettingsController extends Controller
         $settings->streamUrl = $this->request->getBodyParam('streamUrl');
         $settings->pullZone = $this->request->getBodyParam('pullZone');
         $settings->streamKey = $this->request->getBodyParam('streamKey');
+        $settings->showPreviews = (bool) $this->request->getBodyParam('showPreviews');
 
         $path = "plugins.bunny-stream.settings";
 
@@ -34,6 +35,7 @@ class SettingsController extends Controller
             'streamUrl' => $settings->streamUrl,
             'pullZone' => $settings->pullZone,
             'streamKey' => $settings->streamKey,
+            'showPreviews' => $settings->showPreviews,
         ]);
 
         return $this->redirectToPostedUrl();

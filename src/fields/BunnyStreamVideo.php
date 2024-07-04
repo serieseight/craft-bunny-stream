@@ -93,10 +93,15 @@ class BunnyStreamVideo extends Field
             'class' => 'bunny-video-field',
         ]);
 
-        $preview = "<div class='bunny-video-preview'></div>";
+        $settings = Plugin::getInstance()->settings;
 
-        // In progress
-        $preview = "";
+        $showPreviews = $settings->showPreviews ?? false;
+
+        if($showPreviews) {
+            $preview = "<div class='bunny-video-preview'></div>";
+        } else {
+            $preview = "";
+        }
 
         return $select . $preview;
     }

@@ -7,6 +7,22 @@ document.addEventListener("DOMContentLoaded",function(){
         const $preview = $input.querySelector(".bunny-video-preview");
 
         if($preview && typeof $select.selectize !== 'undefined') {
+            Craft.sendActionRequest('GET', 'bunny-stream/videos/get-preview', {
+                headers: {
+                    'accept': 'application/json',
+                    'content-type': 'application/json',
+                },
+                params: {
+                    videoId: $select.value,
+                }
+            })
+            .then(response => {
+                $preview.innerHTML = response.data.html;
+            })
+            .catch(e => {
+                console.log(e);
+            })
+
             $select.selectize.on('change', value => {
                 Craft.sendActionRequest('GET', 'bunny-stream/videos/get-preview', {
                     headers: {
@@ -17,12 +33,12 @@ document.addEventListener("DOMContentLoaded",function(){
                         videoId: value,
                     }
                 })
-                    .then(response => {
-                        $preview.innerHTML = response.data.html;
-                    })
-                    .catch(e => {
-                        console.log(e);
-                    })
+                .then(response => {
+                    $preview.innerHTML = response.data.html;
+                })
+                .catch(e => {
+                    console.log(e);
+                })
             })
         }
     }

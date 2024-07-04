@@ -53,4 +53,14 @@
         value: settings.streamKey,
         placeholder: "$BUNNY_STREAM_KEY"
     }) }}
+
+    <hr>
+
+    {{ forms.lightswitchField({
+        required: false,
+        label: 'Show Previews',
+        name: 'showPreviews',
+        instructions: 'Show video previews below fields',
+        on: settings.showPreviews,
+    }) }}
 {% endblock %}

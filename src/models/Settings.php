@@ -14,6 +14,7 @@ class Settings extends Model
   public $streamUrl = '';
   public $pullZone = '';
   public $streamKey = '';
+  public bool $showPreviews = false;
 
   public function defineRules(): array
   {
