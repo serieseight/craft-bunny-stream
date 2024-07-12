@@ -14,9 +14,12 @@ use craft\services\Fields;
 use craft\web\UrlManager;
 use craft\web\View;
 use craft\web\twig\variables\Cp;
+use lenz\linkfield\events\LinkTypeEvent;
 use serieseight\bunnystream\fields\BunnyStreamVideo;
+use serieseight\bunnystream\linktypes\BunnyVideoLinkType;
 use serieseight\bunnystream\models\Settings;
 use serieseight\bunnystream\services\Video as VideoAlias;
+use lenz\linkfield\Plugin as LinkPlugin;
 
 /**
  * Bunny Stream plugin
@@ -126,6 +129,16 @@ class Plugin extends BasePlugin
             function(RegisterComponentTypesEvent $event) {
             $event->types[] = BunnyStreamVideo::class;
         });
+
+        if(class_exists(LinkPlugin::class)) {
+            Event::on(
+                LinkPlugin::class,
+                LinkPlugin::EVENT_REGISTER_LINK_TYPES,
+                function(LinkTypeEvent $event) {
+                    $event->linkTypes["bunny"] = new BunnyVideoLinkType();
+                }
+            );
+        }
     }
 
     public function getSettingsResponse(): mixed
