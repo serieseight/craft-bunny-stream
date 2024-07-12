@@ -17,9 +17,11 @@ use craft\web\twig\variables\Cp;
 use lenz\linkfield\events\LinkTypeEvent;
 use serieseight\bunnystream\fields\BunnyStreamVideo;
 use serieseight\bunnystream\linktypes\BunnyVideoLinkType;
+use serieseight\bunnystream\linktypes\hyper\BunnyVideo;
 use serieseight\bunnystream\models\Settings;
 use serieseight\bunnystream\services\Video as VideoAlias;
 use lenz\linkfield\Plugin as LinkPlugin;
+use verbb\hyper\services\Links;
 
 /**
  * Bunny Stream plugin
@@ -136,6 +138,16 @@ class Plugin extends BasePlugin
                 LinkPlugin::EVENT_REGISTER_LINK_TYPES,
                 function(LinkTypeEvent $event) {
                     $event->linkTypes["bunny"] = new BunnyVideoLinkType();
+                }
+            );
+        }
+
+        if(class_exists(Links::class)) {
+            Event::on(
+                Links::class,
+                Links::EVENT_REGISTER_LINK_TYPES,
+                function(RegisterComponentTypesEvent $event) {
+                    $event->types["bunny"] = BunnyVideo::class;
                 }
             );
         }
