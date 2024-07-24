@@ -19,21 +19,21 @@ class BunnyVideo extends Link
 
     public function getLinkUrl(): ?string
     {
-        $video = $this->getLinkVideo();
+        $video = $this->getVideo();
         return is_null($video) ? null : $video->embedUrl;
     }
 
     public function getLinkText(): ?string
     {
-        $video = $this->getLinkVideo();
+        if($this->linkText) return $this->linkText;
+
+        $video = $this->getVideo();
         return is_null($video) ? '' : (string)$video->title;
     }
 
     public function getVideo(): ?BunnyStreamVideo
     {
-        if(!$this->linkValue) {
-            return null;
-        }
+        if(!$this->linkValue) return null;
 
         $video = Plugin::getInstance()->video->getVideo($this->linkValue);
 
