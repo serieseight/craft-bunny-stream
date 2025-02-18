@@ -52,6 +52,10 @@ class BunnyStreamVideo extends Model
             return $this->getPreviewUrl();
         }
 
+		if($name === "playlistUrl") {
+			return $this->getPlaylistUrl();
+		}
+
         if (property_exists($this , $name)) {
             return $this->$name ?? null;
         }
@@ -206,4 +210,20 @@ class BunnyStreamVideo extends Model
 
         return $this->video;
     }
+
+    
+
+	private function getPlaylistUrl() {
+		$settings = Plugin::getInstance()->settings;
+
+		$streamUrl = App::parseEnv($settings->streamUrl);
+
+		$video = $this->getVideo();
+
+		if(!$video) {
+			return null;
+		}
+
+		return "https://$streamUrl/$video->guid/playlist.m3u8";
+	}
 }
