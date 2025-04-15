@@ -37,6 +37,7 @@ class Plugin extends BasePlugin
 {
     public string $schemaVersion = '1.0.1';
     public bool $hasCpSettings = true;
+    public bool $hasCpSection = true;
 
     public static function config(): array
     {
@@ -82,6 +83,25 @@ class Plugin extends BasePlugin
         ]);
     }
 
+	public function getCpNavItem(): ?array {
+		$nav = parent::getCpNavItem();
+
+		$nav["label"] = "Bunny Stream";
+		$nav["url"] = "bunny-stream";
+
+		$nav['subnav']['videos'] = [
+			'label' => "Videos",
+			'url' => 'bunny-stream',
+		];
+
+		$nav['subnav']['settings'] = [
+			'label' => "Settings",
+			'url' => 'bunny-stream/settings',
+		];
+
+		return $nav;
+	}
+
     private function attachEventHandlers(): void
     {
         Event::on(
@@ -89,28 +109,6 @@ class Plugin extends BasePlugin
             View::EVENT_REGISTER_CP_TEMPLATE_ROOTS,
             function(RegisterTemplateRootsEvent $event) {
                 $event->roots[$this->id] = __DIR__ . '/templates';
-            }
-        );
-
-        Event::on(
-            Cp::class,
-            Cp::EVENT_REGISTER_CP_NAV_ITEMS,
-            function(RegisterCpNavItemsEvent $event) {
-                $event->navItems[] = [
-                    'label' => 'Bunny Stream',
-                    'url' => 'bunny-stream',
-                    'icon' => '@bunny-stream/icon-mask.svg',
-                    'subnav' => [
-                        'videos' => [
-                            'label' => 'Videos',
-                            'url' => 'bunny-stream',
-                        ],
-                        'settings' => [
-                            'label' => 'Settings',
-                            'url' => 'bunny-stream/settings',
-                        ]
-                    ]
-                ];
             }
         );
 
