@@ -62,6 +62,11 @@ class BunnyVideo extends Link
             ];
         }, $videos);
 
+		$videos = array_merge([[
+			"label" => "None",
+			"value" => "",
+		]], $videos);
+
         return $videos;
     }
 }
